@@ -1,26 +1,165 @@
 @import "tailwindcss";
 
+@theme {
+  --font-bebas: var(--font-bebas-neue), sans-serif;
+  --font-typewriter: var(--font-special-elite), monospace;
+  --font-courier: var(--font-courier-prime), monospace;
+  --font-handwritten: var(--font-caveat), cursive;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #141a12;
+  --foreground: #eae3cd;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-courier-prime), monospace;
+  overflow-x: hidden;
 }
+
+/* Tactile Scenery Classes */
+.military-desk {
+  background-color: #171d15;
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(35, 47, 30, 0.4) 0%, rgba(10, 14, 9, 0.95) 100%),
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.01) 0px, rgba(255, 255, 255, 0.01) 2px, transparent 2px, transparent 12px);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Paper Textures */
+.folder-cover-texture {
+  background-color: #a49375; /* Weathered military khaki folder */
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 100%),
+    repeating-linear-gradient(135deg, rgba(0, 0, 0, 0.03) 0px, rgba(0, 0, 0, 0.03) 1px, transparent 1px, transparent 4px);
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.3),
+    0 10px 25px -5px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  border-left: 8px solid #8e7e62;
+  position: relative;
+}
+
+.inner-paper-texture {
+  background-color: #ede7d5; /* Aged typewriter paper */
+  background-image: 
+    radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.4) 0%, transparent 100%),
+    repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(50, 75, 120, 0.08) 27px, rgba(50, 75, 120, 0.08) 28px);
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.25),
+    inset 0 0 40px rgba(0, 0, 0, 0.05);
+  position: relative;
+}
+
+/* Rubber Stamp Styling */
+.rubber-stamp {
+  font-family: var(--font-bebas-neue), sans-serif;
+  color: rgba(185, 28, 28, 0.75); /* Muted faded red */
+  border: 4px double rgba(185, 28, 28, 0.75);
+  padding: 4px 12px;
+  transform: rotate(-12deg);
+  display: inline-block;
+  font-size: 1.75rem;
+  letter-spacing: 0.15em;
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.1);
+  mix-blend-mode: multiply;
+  mask-image: radial-gradient(circle, rgba(0,0,0,0.7) 30%, rgba(0,0,0,0.3) 80%, rgba(0,0,0,0.1) 100%);
+  user-select: none;
+}
+
+.rubber-stamp-green {
+  font-family: var(--font-bebas-neue), sans-serif;
+  color: rgba(47, 82, 51, 0.8); /* Muted military stamp */
+  border: 3px solid rgba(47, 82, 51, 0.8);
+  padding: 2px 8px;
+  transform: rotate(5deg);
+  display: inline-block;
+  font-size: 1.25rem;
+  letter-spacing: 0.1em;
+  mix-blend-mode: multiply;
+}
+
+/* Typewriter styling details */
+.typewriter-text {
+  font-family: var(--font-special-elite), monospace;
+  color: #1a1a1a;
+  text-shadow: 0.5px 0.5px 0px rgba(255, 255, 255, 0.2);
+  line-height: 1.7;
+}
+
+.typewriter-ink-bleed {
+  filter: blur(0.2px);
+}
+
+/* Pencil scribbles / marks */
+.handwritten-note {
+  font-family: var(--font-caveat), cursive;
+  color: rgba(30, 41, 59, 0.85); /* Pencil graphite color */
+  line-height: 1.2;
+}
+
+/* Redacted (Blacked Out) Text */
+.redacted {
+  background-color: #1a1a1a;
+  color: #1a1a1a !important;
+  user-select: none;
+  cursor: default;
+  padding: 0 4px;
+}
+
+/* 3D and shadow utilities */
+.perspective-1000 {
+  perspective: 1200px;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+/* Dogtag chain links */
+.chain-link {
+  background: radial-gradient(circle, #8c8c8c 20%, #404040 80%);
+  border: 1px solid #2d2d2d;
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+/* Coffee ring mark */
+.coffee-stain {
+  border: 3px double rgba(100, 75, 50, 0.25);
+  border-radius: 50%;
+  position: absolute;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  filter: blur(1px);
+}
+
+.coffee-stain::before {
+  content: '';
+  position: absolute;
+  inset: 15%;
+  border: 1.5px solid rgba(100, 75, 50, 0.15);
+  border-radius: 50%;
+}
+
+/* Custom Scrollbar for physical papers */
+.dossier-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.dossier-scroll::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+}
+.dossier-scroll::-webkit-scrollbar-thumb {
+  background: rgba(130, 120, 100, 0.4);
+  border-radius: 3px;
+}
+.dossier-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(130, 120, 100, 0.6);
+}
+
