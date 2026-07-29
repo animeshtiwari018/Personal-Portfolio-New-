@@ -163,3 +163,12 @@ body {
   background: rgba(130, 120, 100, 0.6);
 }
 
+/* Technical Blueprint Grid */
+.blueprint-grid {
+  background-size: 24px 24px;
+  background-image: 
+    linear-gradient(to right, rgba(125, 160, 109, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(125, 160, 109, 0.08) 1px, transparent 1px);
+}
+
+
