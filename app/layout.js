@@ -1,43 +1,86 @@
-import { Bebas_Neue, Special_Elite, Courier_Prime, Caveat } from "next/font/google";
-import "./globals.css";
-
-const bebasNeue = Bebas_Neue({
-  variable: "--font-bebas-neue",
-  weight: "400",
-  subsets: ["latin"],
-});
-
-const specialElite = Special_Elite({
-  variable: "--font-special-elite",
-  weight: "400",
-  subsets: ["latin"],
-});
-
-const courierPrime = Courier_Prime({
-  variable: "--font-courier-prime",
-  weight: ["400", "700"],
-  subsets: ["latin"],
-});
-
-const caveat = Caveat({
-  variable: "--font-caveat",
-  weight: ["400", "700"],
-  subsets: ["latin"],
-});
+import './globals.css';
+import Link from 'next/link';
 
 export const metadata = {
-  title: "RESTRICTED // PERSONNEL RECORD: TIWARI, A.",
-  description: "Indian Military Archive Office - Personnel dossier file for Tiwari, Animesh (Full Stack Developer)",
+  title: 'BLACK SITE // THE VAULT',
+  description: 'Restricted underground facility.',
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html
-      lang="en"
-      className={`${bebasNeue.variable} ${specialElite.variable} ${courierPrime.variable} ${caveat.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col bg-zinc-950 text-zinc-100">{children}</body>
+    <html lang="en">
+      <body>
+        <div className="bg-blueprint-grid"></div>
+        
+        <div className="layout-wrapper" style={{ position: 'relative', zIndex: 10 }}>
+          {/* Facility Borders */}
+          <div style={{ position: 'fixed', top: 0, left: 0, right: 0, height: '4px', backgroundColor: 'var(--border-color)', zIndex: 100 }}></div>
+          <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, height: '4px', backgroundColor: 'var(--border-color)', zIndex: 100 }}></div>
+          <div style={{ position: 'fixed', top: 0, bottom: 0, left: 0, width: '4px', backgroundColor: 'var(--border-color)', zIndex: 100 }}></div>
+          <div style={{ position: 'fixed', top: 0, bottom: 0, right: 0, width: '4px', backgroundColor: 'var(--border-color)', zIndex: 100 }}></div>
+          
+          <nav className="nav-container steel-panel">
+            <div className="text-mono" style={{ color: 'var(--accent-amber)' }}>
+              FACILITY_ID: VAULT-77
+            </div>
+            <ul className="nav-links text-mono">
+              <li><Link href="#entry">ENTRY</Link></li>
+              <li><Link href="#identity">IDENTITY</Link></li>
+              <li><Link href="#mission-log">MISSION LOG</Link></li>
+              <li><Link href="#operations">OPERATIONS</Link></li>
+              <li><Link href="#armory">ARMORY</Link></li>
+              <li><Link href="#extraction">EXTRACTION</Link></li>
+            </ul>
+          </nav>
+          
+          <main>
+            {children}
+          </main>
+        </div>
+
+        <style dangerouslySetInnerHTML={{__html: `
+          .nav-container {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            right: 2rem;
+            z-index: 50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            background-color: rgba(28, 28, 28, 0.95);
+            backdrop-filter: blur(10px);
+          }
+          
+          .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+          }
+          
+          .nav-links a {
+            transition: color 0.2s ease;
+          }
+          
+          .nav-links a:hover {
+            color: var(--accent-amber);
+          }
+
+          @media (max-width: 1024px) {
+            .nav-container {
+              flex-direction: column;
+              gap: 1rem;
+              padding: 1rem;
+            }
+            .nav-links {
+              gap: 1.5rem;
+              flex-wrap: wrap;
+              justify-content: center;
+            }
+          }
+        `}} />
+      </body>
     </html>
   );
 }
-
