@@ -1,1 +1,180 @@
 @import "tailwindcss";
+
+@theme {
+  --font-mono: var(--font-share-tech-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-display: var(--font-orbitron), system-ui, -apple-system, sans-serif;
+  
+  --color-tactical-olive: #4d7c0f; /* lime-700 equivalent */
+  --color-tactical-green: #22c55e; /* green-500 equivalent */
+  --color-tactical-amber: #f59e0b; /* amber-500 equivalent */
+  --color-tactical-bg: #050505;
+  --color-tactical-dim: rgba(229, 231, 235, 0.4);
+}
+
+@layer utilities {
+  /* CRT Flicker animation */
+  .crt-flicker {
+    animation: crt-flicker-anim 0.15s infinite;
+  }
+
+  /* Scanline moving overlay */
+  .scanlines::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    z-index: 99;
+    background-size: 100% 4px, 6px 100%;
+    pointer-events: none;
+  }
+
+  /* Screen glow */
+  .screen-glow {
+    box-shadow: inset 0 0 100px rgba(77, 124, 15, 0.15);
+  }
+
+  /* Glitch text effect */
+  .text-glitch {
+    position: relative;
+  }
+  .text-glitch::before,
+  .text-glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #050505;
+  }
+  .text-glitch::before {
+    left: 2px;
+    text-shadow: -1px 0 #22c55e;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim-1 5s infinite linear alternate-reverse;
+  }
+  .text-glitch::after {
+    left: -2px;
+    text-shadow: -1.5px 0 #f59e0b;
+    clip: rect(85px, 450px, 140px, 0);
+    animation: glitch-anim-2 5s infinite linear alternate-reverse;
+  }
+}
+
+/* Animations */
+@keyframes crt-flicker-anim {
+  0% { opacity: 0.985; }
+  50% { opacity: 0.995; }
+  100% { opacity: 0.985; }
+}
+
+@keyframes glitch-anim-1 {
+  0% { clip: rect(15px, 9999px, 66px, 0); }
+  10% { clip: rect(34px, 9999px, 5px, 0); }
+  20% { clip: rect(81px, 9999px, 28px, 0); }
+  30% { clip: rect(11px, 9999px, 92px, 0); }
+  40% { clip: rect(61px, 9999px, 47px, 0); }
+  50% { clip: rect(2px, 9999px, 83px, 0); }
+  60% { clip: rect(74px, 9999px, 19px, 0); }
+  70% { clip: rect(49px, 9999px, 52px, 0); }
+  80% { clip: rect(93px, 9999px, 3px, 0); }
+  90% { clip: rect(23px, 9999px, 78px, 0); }
+  100% { clip: rect(57px, 9999px, 35px, 0); }
+}
+
+@keyframes glitch-anim-2 {
+  0% { clip: rect(85px, 9999px, 5px, 0); }
+  10% { clip: rect(12px, 9999px, 78px, 0); }
+  20% { clip: rect(54px, 9999px, 23px, 0); }
+  30% { clip: rect(91px, 9999px, 67px, 0); }
+  40% { clip: rect(3px, 9999px, 12px, 0); }
+  50% { clip: rect(48px, 9999px, 89px, 0); }
+  60% { clip: rect(72px, 9999px, 45px, 0); }
+  70% { clip: rect(19px, 9999px, 96px, 0); }
+  80% { clip: rect(61px, 9999px, 3px, 0); }
+  90% { clip: rect(38px, 9999px, 54px, 0); }
+  100% { clip: rect(95px, 9999px, 81px, 0); }
+}
+
+/* Custom Tactical Grid */
+.tactical-grid-bg {
+  background-size: 60px 60px;
+  background-image: 
+    linear-gradient(to right, rgba(77, 124, 15, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(77, 124, 15, 0.04) 1px, transparent 1px);
+}
+
+/* Vertical Laser Scan Line */
+@keyframes laser-sweep {
+  0% {
+    top: -2%;
+    opacity: 0;
+  }
+  5% {
+    opacity: 0.8;
+  }
+  95% {
+    opacity: 0.8;
+  }
+  100% {
+    top: 102%;
+    opacity: 0;
+  }
+}
+
+.laser-line {
+  animation: laser-sweep 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Radar rotation */
+@keyframes radar-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.radar-sweep-effect {
+  background: conic-gradient(
+    from 0deg,
+    rgba(77, 124, 15, 0.12) 0deg,
+    rgba(77, 124, 15, 0.03) 120deg,
+    transparent 240deg,
+    transparent 360deg
+  );
+  animation: radar-rotate 8s linear infinite;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #050505;
+  border-left: 1px solid rgba(77, 124, 15, 0.1);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(77, 124, 15, 0.3);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(77, 124, 15, 0.5);
+}
+
+/* Blinking animations */
+@keyframes tactical-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+.blink-tactical {
+  animation: tactical-blink 1.5s infinite steps(2);
+}
+
+.blink-cursor {
+  animation: tactical-blink 0.8s infinite steps(2);
+}
