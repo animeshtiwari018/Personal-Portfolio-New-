@@ -12,7 +12,7 @@ export default function TacticalLoader({ onFinished }) {
   // Scene 1: SIGNAL ACQUIRED...
   // Scene 2: Telemetry acquisition
   // Scene 3: Loading panel (MISSION INITIALIZING)
-  // Scene 4: IDENTITY VERIFIED / SPECIAL OPERATIONS READY
+  // Scene 4: IDENTITY VERIFIED / ACCESS GRANTED
   // Scene 5: Fade-out transition
   const [scene, setScene] = useState(0);
 
@@ -22,10 +22,10 @@ export default function TacticalLoader({ onFinished }) {
       setScene(1);
     }, 300);
 
-    // Scene 1 -> 2: Show Telemetry feed after 1200ms total
+    // Scene 1 -> 2: Show Telemetry feed after 1300ms total
     const timer2 = setTimeout(() => {
       setScene(2);
-    }, 1300);
+    }, 1400);
 
     return () => {
       clearTimeout(timer1);
@@ -43,7 +43,6 @@ export default function TacticalLoader({ onFinished }) {
 
   const handleVerificationComplete = () => {
     setScene(5);
-    // Let the fade-out finish before completing
     setTimeout(() => {
       onFinished && onFinished();
     }, 600);
@@ -54,7 +53,6 @@ export default function TacticalLoader({ onFinished }) {
     const prefersReduced = typeof window !== 'undefined' && 
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReduced) {
-      // Instantly trigger finished callback to keep things accessible
       const instantTimer = setTimeout(() => {
         onFinished && onFinished();
       }, 100);
@@ -70,14 +68,14 @@ export default function TacticalLoader({ onFinished }) {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5, ease: 'easeInOut' }}
-          className="fixed inset-0 bg-[#050505] text-[#e5e7eb] z-[1000] flex flex-col items-center justify-center font-mono overflow-hidden select-none crt-flicker scanlines screen-glow"
+          className="fixed inset-0 bg-hud-bg text-neutral-200 z-[1000] flex flex-col items-center justify-center font-mono overflow-hidden select-none crt-flicker scanlines screen-glow transition-hud"
         >
-          {/* Tactical grid background environment, rendered for all scenes except Scene 0 */}
+          {/* Tactical grid background environment */}
           {scene > 0 && <TacticalGrid />}
 
           {/* Core content wrapper */}
           <div className="w-full px-6 z-20 flex flex-col items-center justify-center">
-            {/* Scene 1: SIGNAL ACQUIRED... */}
+            {/* Scene 1: SIGNAL ACQUIRED */}
             {scene === 1 && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -86,12 +84,12 @@ export default function TacticalLoader({ onFinished }) {
                 className="text-center"
               >
                 <div className="relative text-glitch py-4" data-text="SIGNAL ACQUIRED...">
-                  <h1 className="text-xl md:text-2xl font-bold font-display tracking-[0.3em] text-tactical-olive">
+                  <h1 className="text-xl md:text-2xl font-bold font-display tracking-[0.25em] text-hud-primary text-glow">
                     SIGNAL ACQUIRED...
                   </h1>
                 </div>
-                <div className="text-[10px] text-tactical-olive/50 mt-1 uppercase tracking-widest blink-tactical">
-                  Establishing classified link uplink
+                <div className="text-[10px] text-hud-primary/50 mt-1 uppercase tracking-widest blink-tactical">
+                  Establishing classified satellite uplink
                 </div>
               </motion.div>
             )}
@@ -138,13 +136,13 @@ export default function TacticalLoader({ onFinished }) {
 
           {/* Small operational watermark details in corner background */}
           {scene > 0 && (
-            <div className="absolute bottom-6 left-6 font-mono text-[9px] text-tactical-olive/30 flex flex-col space-y-1">
+            <div className="absolute bottom-6 left-6 font-mono text-[9px] text-hud-primary/30 flex flex-col space-y-0.5 transition-hud">
               <span>STATUS: SECURITY_LVL_V</span>
               <span>OPS_UNIT: PARA_SF_COVERT</span>
             </div>
           )}
           {scene > 0 && (
-            <div className="absolute bottom-6 right-6 font-mono text-[9px] text-tactical-olive/30 flex flex-col space-y-1 text-right">
+            <div className="absolute bottom-6 right-6 font-mono text-[9px] text-hud-primary/30 flex flex-col space-y-0.5 text-right transition-hud">
               <span>SYS_MON: ACTIVE</span>
               <span>BAT_V: 14.2V // OK</span>
             </div>
