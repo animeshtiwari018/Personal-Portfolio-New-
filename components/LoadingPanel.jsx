@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
+import { AudioEngine } from './AudioEngine';
 
 export default function LoadingPanel({ onComplete }) {
   const [progress, setProgress] = useState(0);
@@ -31,27 +32,37 @@ export default function LoadingPanel({ onComplete }) {
 
     let animationFrameId;
     let currentProgress = 0;
+    let lastProgressFloor = 0;
     
     // Custom non-linear easing function
     const tick = () => {
-      // Create interesting speed changes
       let increment = 0;
       if (currentProgress < 20) {
-        increment = 0.5 + Math.random() * 1.5; // Moderately fast
+        increment = 0.6 + Math.random() * 1.6;
       } else if (currentProgress < 38) {
-        increment = 0.2 + Math.random() * 0.6; // Slows down for identity auth
+        increment = 0.25 + Math.random() * 0.7;
       } else if (currentProgress < 42) {
-        increment = 0.05 + Math.random() * 0.1; // Hard pause simulating secure sync handshake
+        increment = 0.06 + Math.random() * 0.12; // Hard pause simulating secure sync handshake
       } else if (currentProgress < 75) {
-        increment = 1.0 + Math.random() * 2.5; // Fast burst for satellite link
+        increment = 1.2 + Math.random() * 2.8;
       } else if (currentProgress < 92) {
-        increment = 0.3 + Math.random() * 0.8; // Decelerating as database loads
+        increment = 0.4 + Math.random() * 0.9;
       } else if (currentProgress < 100) {
-        increment = 0.4 + Math.random() * 0.6; // Finalizing
+        increment = 0.5 + Math.random() * 0.7;
       }
 
       currentProgress = Math.min(100, currentProgress + increment);
-      setProgress(Math.floor(currentProgress));
+      const floorProgress = Math.floor(currentProgress);
+      setProgress(floorProgress);
+
+      // Play audio tick when progress increases
+      if (floorProgress > lastProgressFloor) {
+        // Only tick every few steps to make it sound nice
+        if (floorProgress % 2 === 0) {
+          AudioEngine.playTick();
+        }
+        lastProgressFloor = floorProgress;
+      }
 
       // Rotate messages based on current progress threshold
       const matchedMessage = [...messages]
@@ -62,14 +73,13 @@ export default function LoadingPanel({ onComplete }) {
       }
 
       if (currentProgress < 100) {
-        // Control speed by adding a small delay in ticks
         setTimeout(() => {
           animationFrameId = requestAnimationFrame(tick);
-        }, 16); // ~60fps ticks
+        }, 22);
       } else {
         setTimeout(() => {
           onComplete && onComplete();
-        }, 400); // Hold 100% briefly before moving to scene 4
+        }, 500);
       }
     };
 
@@ -80,27 +90,32 @@ export default function LoadingPanel({ onComplete }) {
     };
   }, []);
 
-  // Split progress bar into 20 segment blocks for retro-tactical look
-  const totalBlocks = 20;
+  const totalBlocks = 24;
   const filledBlocks = Math.floor((progress / 100) * totalBlocks);
 
   return (
-    <div className="w-full max-w-lg mx-auto p-6 font-mono border border-tactical-olive/20 bg-tactical-bg/85 backdrop-blur-md relative screen-glow shadow-lg rounded-sm">
+    <div className="w-full max-w-lg mx-auto p-6 border border-hud-dim glass-panel relative screen-glow shadow-hud-glow rounded-sm transition-hud">
+      {/* Corner brackets */}
+      <div className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-hud-primary" />
+      <div className="absolute top-0 right-0 w-2.5 h-2.5 border-t border-r border-hud-primary" />
+      <div className="absolute bottom-0 left-0 w-2.5 h-2.5 border-b border-l border-hud-primary" />
+      <div className="absolute bottom-0 right-0 w-2.5 h-2.5 border-b border-r border-hud-primary" />
+
       {/* Title */}
-      <h2 className="text-center text-sm md:text-base font-bold font-display tracking-widest text-tactical-amber mb-5 blink-tactical flex items-center justify-center space-x-2">
-        <span>&lt; MISSION INITIALIZING &gt;</span>
+      <h2 className="text-center text-xs md:text-sm font-bold font-display tracking-[0.2em] text-hud-primary mb-5 blink-tactical flex items-center justify-center space-x-2">
+        <span>&lt; SYSTEM CORE INITIALIZING &gt;</span>
       </h2>
 
       {/* Progress Bar Container */}
-      <div className="border border-tactical-olive/30 p-1.5 mb-4 bg-black/40 rounded-sm">
-        <div className="flex space-x-[2px] h-4">
+      <div className="border border-hud-dim/20 p-1.5 mb-4 bg-black/45 rounded-sm">
+        <div className="flex space-x-[2px] h-3.5">
           {Array.from({ length: totalBlocks }).map((_, i) => (
             <div
               key={i}
-              className={`flex-1 h-full transition-all duration-150 ${
+              className={`flex-1 h-full transition-all duration-150 rounded-sm ${
                 i < filledBlocks
-                  ? 'bg-tactical-olive shadow-[0_0_4px_#4d7c0f]'
-                  : 'bg-tactical-olive/10'
+                  ? 'bg-hud-primary shadow-[0_0_6px_var(--hud-primary)]'
+                  : 'bg-hud-primary/5'
               }`}
             />
           ))}
@@ -108,24 +123,24 @@ export default function LoadingPanel({ onComplete }) {
       </div>
 
       {/* Numerical Progress Indicator */}
-      <div className="flex justify-between items-center text-[11px] text-tactical-olive/80 mb-6 font-mono">
-        <span>SECURITY PROTOCOL // V2.8</span>
-        <span className="text-tactical-green font-bold tracking-widest">
+      <div className="flex justify-between items-center text-[10px] text-hud-primary/75 mb-6 font-mono">
+        <span className="tracking-wider">SECURITY PROTOCOL // AES-256</span>
+        <span className="text-hud-primary font-bold tracking-widest text-xs">
           {progress.toString().padStart(3, '0')}% LOADED
         </span>
       </div>
 
       {/* Rotating Message Box */}
-      <div className="border-t border-dashed border-tactical-olive/20 pt-4 flex items-center space-x-2">
-        <span className="text-tactical-green text-xs font-bold font-mono">&gt;</span>
-        <span className="text-[12px] md:text-sm tracking-wide text-neutral-200 font-mono transition-all duration-300">
+      <div className="border-t border-dashed border-hud-dim/20 pt-4 flex items-center space-x-2 min-h-[40px]">
+        <span className="text-hud-primary text-xs font-bold font-mono animate-pulse">&gt;</span>
+        <span className="text-[11px] md:text-xs tracking-widest text-neutral-200 font-mono transition-all duration-300 uppercase">
           {statusText}
         </span>
-        <span className="w-1.5 h-3 bg-tactical-green/80 blink-cursor" />
+        <span className="w-1.5 h-3.5 bg-hud-primary/80 blink-cursor" />
       </div>
 
       {/* Mini data metrics */}
-      <div className="mt-4 flex justify-between items-center text-[9px] text-tactical-olive/40 border-t border-tactical-olive/10 pt-2.5">
+      <div className="mt-4 flex justify-between items-center text-[8px] text-hud-primary/40 border-t border-hud-dim/10 pt-2.5">
         <span>DATA_RATE: {progress < 100 ? (3.4 + Math.random()).toFixed(2) : '0.00'} MB/S</span>
         <span>PACKETS: {progress < 100 ? Math.floor(progress * 4.2) : 420}/420 SEC_SEC</span>
       </div>
