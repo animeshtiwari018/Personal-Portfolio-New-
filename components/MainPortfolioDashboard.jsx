@@ -25,6 +25,7 @@ import {
 import { AudioEngine } from './AudioEngine';
 import TacticalRadarMap from './TacticalRadarMap';
 import InteractiveDiagnostics from './InteractiveDiagnostics';
+import CovertShell from './CovertShell';
 
 export default function MainPortfolioDashboard() {
   const [activeTab, setActiveTab] = useState('dossier');
@@ -248,7 +249,8 @@ export default function MainPortfolioDashboard() {
                 { id: 'dossier', label: 'PERSONNEL_DOSSIER', ref: '01' },
                 { id: 'operations', label: 'ACTIVE_OPERATIONS', ref: '02' },
                 { id: 'capabilities', label: 'TACTICAL_CAPS', ref: '03' },
-                { id: 'comms', label: 'SECURE_COMMS', ref: '04' }
+                { id: 'comms', label: 'SECURE_COMMS', ref: '04' },
+                { id: 'covert_shell', label: 'COVERT_SHELL', ref: '05' }
               ].map(tab => (
                 <button 
                   key={tab.id}
