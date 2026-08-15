@@ -130,6 +130,7 @@ export default function CovertShell({ onThemeChange, currentTheme }) {
           { type: 'info', text: '  theme <name> - Change spectral HUD theme (emerald, amber, cyber, crimson)' },
           { type: 'info', text: '  neofetch     - Show visual operational neofetch specs' },
           { type: 'info', text: '  decrypt      - Run AES-256 decryption scanning protocol' },
+          { type: 'info', text: '  satlink      - Fetch satellite uplink logs and decrypted signals' },
           { type: 'info', text: '  clear        - Flush shell log outputs' }
         ];
         break;
@@ -174,6 +175,18 @@ export default function CovertShell({ onThemeChange, currentTheme }) {
           { type: 'text', text: 'COVERT SHELL CORE:  HUDBEAM v6.1.0' },
           { type: 'text', text: 'DECRYPT ENGINE:     AES-GCM-256 HARDWARE-ACCELERATED' },
           { type: 'text', text: 'STATION GEOLOC:     30.3165° N, 78.0322° E' }
+        ];
+        break;
+
+      case 'satlink':
+        outputs = [
+          { type: 'info', text: 'GSAT-7A [RUKMINI] SATELLITE UPLINK STATUS:' },
+          { type: 'text', text: '--------------------------------------------------' },
+          { type: 'success', text: '[UPLINK] ACTIVE FREQ: 824.5 MHz (BAND UHF_09)' },
+          { type: 'success', text: '[CRYPTO] DECRYPTION KEY MATCH: AES-GCM-256 (LEVEL V)' },
+          { type: 'info', text: 'SYS LOG #09A: SECURE TUNNEL ONLINE // DB CONNECTED' },
+          { type: 'info', text: 'SYS LOG #09B: UAV DRONE TELEMETRY LOCKED ON GRID 43Q-ND' },
+          { type: 'text', text: 'LAT: 30.3165° N / LONG: 78.0322° E / ALT: 2,230 M ASL' }
         ];
         break;
 
