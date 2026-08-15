@@ -27,6 +27,7 @@ import TacticalRadarMap from './TacticalRadarMap';
 import InteractiveDiagnostics from './InteractiveDiagnostics';
 import CovertShell from './CovertShell';
 import SatelliteIntercept from './SatelliteIntercept';
+import ThreatMatrix from './ThreatMatrix';
 
 export default function MainPortfolioDashboard() {
   const [activeTab, setActiveTab] = useState('dossier');
@@ -251,8 +252,9 @@ export default function MainPortfolioDashboard() {
                 { id: 'operations', label: 'ACTIVE_OPERATIONS', ref: '02' },
                 { id: 'capabilities', label: 'TACTICAL_CAPS', ref: '03' },
                 { id: 'sat_intercept', label: 'SAT_INTERCEPT', ref: '04' },
-                { id: 'comms', label: 'SECURE_COMMS', ref: '05' },
-                { id: 'covert_shell', label: 'COVERT_SHELL', ref: '06' }
+                { id: 'threat_matrix', label: 'THREAT_MATRIX', ref: '05' },
+                { id: 'comms', label: 'SECURE_COMMS', ref: '06' },
+                { id: 'covert_shell', label: 'COVERT_SHELL', ref: '07' }
               ].map(tab => (
                 <button 
                   key={tab.id}
@@ -689,6 +691,18 @@ export default function MainPortfolioDashboard() {
                 className="flex-1"
               >
                 <SatelliteIntercept />
+              </motion.div>
+            )}
+            {activeTab === 'threat_matrix' && (
+              <motion.div
+                key="threat_matrix"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+                className="flex-1"
+              >
+                <ThreatMatrix />
               </motion.div>
             )}
             {activeTab === 'covert_shell' && (
