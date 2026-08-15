@@ -45,7 +45,7 @@ The radar map coordinates plotter visualizes active operational targets globally
 ---
 
 ## PART 09: NETWORK & ENCRYPTION LOGS
-Satellite communication logs simulate AES-GCM-256 secure network packaging and transmissions on secure sat-link streams.
+Satellite communication logs simulate AES-GCM-256 secure network packaging and transmissions on secure sat-link streams. An interactive HUD console provides operators with real-time orbital mapping, dynamic cryptographic key verification sequences, and decrypted communication packages containing mission logs. CLI satellite logs are also accessible via the `satlink` terminal command.
 
 ---
 
