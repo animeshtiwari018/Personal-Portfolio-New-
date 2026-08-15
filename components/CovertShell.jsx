@@ -131,6 +131,8 @@ export default function CovertShell({ onThemeChange, currentTheme }) {
           { type: 'info', text: '  neofetch     - Show visual operational neofetch specs' },
           { type: 'info', text: '  decrypt      - Run AES-256 decryption scanning protocol' },
           { type: 'info', text: '  satlink      - Fetch satellite uplink logs and decrypted signals' },
+          { type: 'info', text: '  threats      - View active intrusion vectors risk status' },
+          { type: 'info', text: '  defend       - Execute network containment countermeasures' },
           { type: 'info', text: '  clear        - Flush shell log outputs' }
         ];
         break;
@@ -187,6 +189,26 @@ export default function CovertShell({ onThemeChange, currentTheme }) {
           { type: 'info', text: 'SYS LOG #09A: SECURE TUNNEL ONLINE // DB CONNECTED' },
           { type: 'info', text: 'SYS LOG #09B: UAV DRONE TELEMETRY LOCKED ON GRID 43Q-ND' },
           { type: 'text', text: 'LAT: 30.3165° N / LONG: 78.0322° E / ALT: 2,230 M ASL' }
+        ];
+        break;
+
+      case 'threats':
+        outputs = [
+          { type: 'info', text: 'ACTIVE INTRUSION VECTORS MATRIX:' },
+          { type: 'text', text: '--------------------------------------------------' },
+          { type: 'error', text: '[VEC_01] IP: 185.220.101.4 | PORT: 443  | ORIGIN: BEIJING, CN   | STATUS: CRITICAL' },
+          { type: 'error', text: '[VEC_02] IP: 93.115.80.19  | PORT: 8080 | ORIGIN: ST. PETERSBURG| STATUS: ELEVATED' },
+          { type: 'success', text: '[VEC_03] IP: 202.45.160.8  | PORT: 22   | ORIGIN: PROXY_NET_DE  | STATUS: LOW' }
+        ];
+        break;
+
+      case 'defend':
+        outputs = [
+          { type: 'info', text: 'DEPLOYING SYSTEM INTEGRITY CONTAINMENT DEFENSES...' },
+          { type: 'text', text: '--------------------------------------------------' },
+          { type: 'success', text: '[CONTAINMENT] INITIALIZING SECURE PORTS ISOLATION... SUCCESS' },
+          { type: 'success', text: '[COUNTERMEASURES] RESET SYSTEM THREAT TELEMETRY... COMPLETE' },
+          { type: 'success', text: '>> ALL HOSTILE VECTOR ATTACKS DEPLOYED CONTAINMENT: SECURED' }
         ];
         break;
 
