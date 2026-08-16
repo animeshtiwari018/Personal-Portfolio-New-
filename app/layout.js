@@ -1,28 +1,21 @@
 import './globals.css';
-import { Share_Tech_Mono, Orbitron } from 'next/font/google';
+import { Inter } from 'next/font/google';
 
-const shareTechMono = Share_Tech_Mono({
-  weight: '400',
+const inter = Inter({
   subsets: ['latin'],
-  variable: '--font-share-tech-mono',
-  display: 'swap',
-});
-
-const orbitron = Orbitron({
-  subsets: ['latin'],
-  variable: '--font-orbitron',
+  variable: '--font-sans',
   display: 'swap',
 });
 
 export const metadata = {
-  title: 'COVERT COMMAND TERMINAL | PARA SPECIAL FORCES',
-  description: 'Secure operational tactical center interface. Authorized personnel only.',
+  title: 'Portfolio',
+  description: 'Personal portfolio website',
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${shareTechMono.variable} ${orbitron.variable}`}>
-      <body className="bg-tactical-bg text-gray-200 antialiased font-mono min-h-screen selection:bg-tactical-olive/40 selection:text-white">
+    <html lang="en" className={`${inter.variable}`}>
+      <body className="bg-zinc-950 text-zinc-50 antialiased font-sans min-h-screen">
         {children}
       </body>
     </html>
